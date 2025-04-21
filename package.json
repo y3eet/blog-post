@@ -10,12 +10,14 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^6.16.0",
+    "@uploadthing/react": "^7.3.0",
     "daisyui": "^5.0.27",
     "lucide-react": "^0.501.0",
     "mongoose": "^8.13.2",
     "next": "15.3.1",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "uploadthing": "^7.6.0"
   },
   "devDependencies": {
     "typescript": "^5",
