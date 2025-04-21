@@ -9,3 +9,12 @@ export type Blog = {
   images?: string[];
   createdAt: Date;
 };
+
+export type Comment = {
+  _id: ObjectId | string;
+  postId: ObjectId | string;
+  userId: string;
+  userName: string;
+  content: string;
+  createdAt: Date;
+};
