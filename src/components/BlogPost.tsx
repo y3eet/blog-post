@@ -56,7 +56,9 @@ const BlogPost = ({
           </div>
         </div>
         <div className="card-actions justify-end mt-2">
-          <button className="btn btn-sm btn-outline">Read More</button>
+          <Link href={`/blogs/${_id}`} className="btn btn-sm btn-outline">
+            Read More
+          </Link>
         </div>
       </div>
     </div>
