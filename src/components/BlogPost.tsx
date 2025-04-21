@@ -10,7 +10,7 @@ const BlogPost = ({
   blog: { _id, userId, userName, title, images = [], createdAt },
   currentUserId,
 }: {
-  currentUserId: string;
+  currentUserId?: string;
   blog: Blog;
 }) => {
   return (
