@@ -1,6 +1,6 @@
 "use client";
 import { useState, ChangeEvent } from "react";
-import { createBlogPost } from "./actions";
+import { createBlogPost } from "../actions";
 import { useRouter } from "next/navigation";
 const CreatePost = () => {
   const router = useRouter();
