@@ -3,7 +3,7 @@
 import Modal from "@/components/Modal";
 import { Trash } from "lucide-react";
 import React, { useState } from "react";
-import { deletePost } from "../actions";
+import { deletePost } from "../../actions";
 import { useRouter } from "next/navigation";
 
 const DeleteBlog = ({ postId }: { postId: string }) => {
