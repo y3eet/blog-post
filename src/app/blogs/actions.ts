@@ -20,3 +20,12 @@ export async function createBlogPost(formData: FormData) {
   });
   revalidatePath("/blogs");
 }
+
+export async function deletePost(postId: string) {
+  const user = await currentUser();
+  if (!user) {
+    throw new Error("Unauthenticated");
+  }
+  await connectToDatabase();
+  await BlogModel.deleteOne({ _id: postId, userId: user.id });
+}
