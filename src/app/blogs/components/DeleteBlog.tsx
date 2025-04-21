@@ -4,10 +4,8 @@ import Modal from "@/components/Modal";
 import { Trash } from "lucide-react";
 import React, { useState } from "react";
 import { deletePost } from "../../actions";
-import { useRouter } from "next/navigation";
 
 const DeleteBlog = ({ postId }: { postId: string }) => {
-  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
@@ -15,7 +13,6 @@ const DeleteBlog = ({ postId }: { postId: string }) => {
     setDisabled(true);
     try {
       await deletePost(postId);
-      router.refresh();
       setOpen(false);
     } catch (e) {
       alert(e);
