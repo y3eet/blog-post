@@ -7,4 +7,5 @@ export type Blog = {
   title: string;
   content: string;
   images?: string[];
+  createdAt: Date;
 };

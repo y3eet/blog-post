@@ -9,6 +9,7 @@ export interface IBlog extends Document {
   title: string;
   content: string;
   images?: string[];
+  createdAt: Date;
 }
 
 // Schema definition
