@@ -3,6 +3,7 @@ import React from "react";
 import Image from "next/image";
 import { Pencil } from "lucide-react";
 import DeleteBlog from "@/app/blogs/components/DeleteBlog";
+import Link from "next/link";
 
 const BlogPost = ({
   blog: { _id, userId, userName, title, content, images = [] },
@@ -31,9 +32,12 @@ const BlogPost = ({
             {currentUserId === userId && (
               <div>
                 <DeleteBlog postId={_id.toString()} />
-                <button className="btn btn-sm btn-success btn-circle">
+                <Link
+                  href={`/blogs/edit/${_id.toString()}`}
+                  className="btn btn-sm btn-success btn-circle"
+                >
                   <Pencil size={18} />
-                </button>
+                </Link>
               </div>
             )}
           </div>
@@ -71,8 +75,6 @@ const BlogPost = ({
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="object-cover hover:scale-105 transition-transform duration-500"
-                    placeholder="blur"
-                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII="
                   />
                 </figure>
               ))}

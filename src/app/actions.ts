@@ -4,19 +4,22 @@ import { BlogModel } from "@/lib/mongodb/models/Blog";
 import connectToDatabase from "@/lib/mongodb/mongodb";
 import { revalidatePath } from "next/cache";
 
-export async function createBlogPost(formData: FormData) {
+export async function createBlogPost(formData: FormData, images: string[]) {
   const user = await currentUser();
   if (!user) {
     throw new Error("Unauthenticated");
   }
   await connectToDatabase();
+  //TODO: validation
   const title = formData.get("title");
   const content = formData.get("content");
+
   await BlogModel.insertOne({
     userId: user.id,
     userName: user.username,
     title,
     content,
+    images,
   });
   revalidatePath("/blogs");
 }
