@@ -31,4 +31,33 @@ export async function deletePost(postId: string) {
   }
   await connectToDatabase();
   await BlogModel.deleteOne({ _id: postId, userId: user.id });
+  return revalidatePath("/blogs");
+}
+
+export async function updateBlogPost(
+  _id: string,
+  formData: FormData,
+  images: string[]
+) {
+  const user = await currentUser();
+  if (!user) {
+    throw new Error("Unauthenticated");
+  }
+  await connectToDatabase();
+  //TODO: validation
+  const title = formData.get("title");
+  const content = formData.get("content");
+
+  await BlogModel.updateOne(
+    { _id, userId: user.id },
+    {
+      $set: {
+        userName: user.username,
+        title,
+        content,
+        images,
+      },
+    }
+  );
+  return revalidatePath("/blogs");
 }
