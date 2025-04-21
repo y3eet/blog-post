@@ -1,8 +1,9 @@
-import mongoose, { Document, Model } from "mongoose";
+import mongoose, { Document, Model, ObjectId } from "mongoose";
 const { Schema, model, models } = mongoose;
 
 // Interface for the Blog document
 export interface IBlog extends Document {
+  _id: ObjectId;
   userId: string;
   userName: string;
   title: string;

@@ -1,10 +1,11 @@
 import { Blog } from "@/lib/types";
 import React from "react";
 import Image from "next/image";
-import { Pencil, Trash } from "lucide-react";
+import { Pencil } from "lucide-react";
+import DeleteBlog from "@/app/blogs/components/DeleteBlog";
 
 const BlogPost = ({
-  blog: { userId, userName, title, content, images = [] },
+  blog: { _id, userId, userName, title, content, images = [] },
   currentUserId,
 }: {
   currentUserId: string;
@@ -29,9 +30,7 @@ const BlogPost = ({
             </span>
             {currentUserId === userId && (
               <div>
-                <button className="btn btn-sm btn-error btn-circle mr-2">
-                  <Trash size={18} />
-                </button>
+                <DeleteBlog postId={_id.toString()} />
                 <button className="btn btn-sm btn-success btn-circle">
                   <Pencil size={18} />
                 </button>
