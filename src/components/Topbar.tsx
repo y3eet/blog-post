@@ -32,7 +32,7 @@ const Topbar = () => {
         </div>
 
         <Link href="/" className="btn btn-ghost normal-case text-xl">
-          Post Blog
+          Blog Post
         </Link>
       </div>
       <div className="navbar-center">
