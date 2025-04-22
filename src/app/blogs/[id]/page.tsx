@@ -7,10 +7,13 @@ import { currentUser } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import Image from "next/image";
+import EditComment from "@/components/EditComment";
+import { SignInButton, SignUpButton } from "@clerk/nextjs";
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
   await connectToDatabase();
+  const user = await currentUser();
   const blogPost: Blog | null = await BlogModel.findById(id);
   if (!blogPost) {
     return (
@@ -115,14 +118,20 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
         <p>{blogPost.content}</p>
       </article>
       {/* Comments */}
-      <CommentForm postId={id} />
+      <CommentForm postId={id} currentUserId={user?.id} />
     </div>
   );
 };
 
 export default page;
 
-const CommentForm = async ({ postId }: { postId: string }) => {
+const CommentForm = async ({
+  postId,
+  currentUserId,
+}: {
+  postId: string;
+  currentUserId?: string;
+}) => {
   await connectToDatabase();
   const comments = await CommentModel.find({ postId: postId }).sort({
     createdAt: "desc",
@@ -148,20 +157,32 @@ const CommentForm = async ({ postId }: { postId: string }) => {
       <h3 className="text-2xl font-bold mb-6">Comments ({comments.length})</h3>
 
       {/* Comment Form */}
-      <form action={handleCommentSubmit} className="mb-8">
-        <div className="form-control">
-          <textarea
-            className="textarea textarea-bordered h-24 w-full"
-            placeholder="Join the discussion..."
-            name="newComment"
-          ></textarea>
+      {!!currentUserId ? (
+        <form action={handleCommentSubmit} className="mb-8">
+          <div className="form-control">
+            <textarea
+              className="textarea textarea-bordered h-24 w-full"
+              placeholder="Join the discussion..."
+              name="newComment"
+            ></textarea>
+          </div>
+          <div className="mt-4">
+            <button type="submit" className="btn btn-primary">
+              Post Comment
+            </button>
+          </div>
+        </form>
+      ) : (
+        <div className="my-4 flex gap-3 items-center">
+          <p className="text-xl">Login to post comment:</p>
+          <SignInButton>
+            <button className="btn btn-primary">Login</button>
+          </SignInButton>
+          <SignUpButton>
+            <button className="btn btn-primary">Register</button>
+          </SignUpButton>
         </div>
-        <div className="mt-4">
-          <button type="submit" className="btn btn-primary">
-            Post Comment
-          </button>
-        </div>
-      </form>
+      )}
 
       {/* Comments List */}
       <div className="space-y-6">
@@ -186,9 +207,17 @@ const CommentForm = async ({ postId }: { postId: string }) => {
                     </span>
                   </div>
                   <p className="mt-2">{comment.content}</p>
-                  <div className="mt-2">
-                    {/* <button className="btn btn-sm btn-ghost">Edit</button> */}
-                  </div>
+                  {currentUserId === comment.userId && (
+                    <div className="mt-2">
+                      <EditComment
+                        commentId={String(comment._id)}
+                        commentContent={comment.content}
+                      />
+                      <button className="btn btn-sm btn-soft btn-error ml-2">
+                        Delete
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

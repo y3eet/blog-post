@@ -3,6 +3,7 @@ import { currentUser } from "@clerk/nextjs/server";
 import { BlogModel } from "@/lib/mongodb/models/Blog";
 import connectToDatabase from "@/lib/mongodb/mongodb";
 import { revalidatePath } from "next/cache";
+import CommentModel from "@/lib/mongodb/models/Comment";
 
 export async function createBlogPost(formData: FormData, images: string[]) {
   const user = await currentUser();
@@ -60,4 +61,21 @@ export async function updateBlogPost(
     }
   );
   return revalidatePath("/blogs");
+}
+
+export async function updateComment(commentId: string, content: string) {
+  const user = await currentUser();
+  if (!user) {
+    throw new Error("Unauthenticated");
+  }
+  console.log(content);
+  await connectToDatabase();
+  await CommentModel.updateOne(
+    { _id: commentId, userId: user.id },
+    {
+      $set: {
+        content,
+      },
+    }
+  );
 }
