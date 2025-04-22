@@ -43,12 +43,6 @@ const Topbar = () => {
           <li>
             <Link href="/blogs">Blogs</Link>
           </li>
-          <li>
-            <a>About</a>
-          </li>
-          <li>
-            <a>Contact</a>
-          </li>
         </ul>
       </div>
       <div className="navbar-end flex gap-2">
