@@ -69,7 +69,12 @@ export default async function Home() {
                   </div>
                 </div>
                 <div className="card-actions justify-end mt-2">
-                  <button className="btn btn-sm btn-outline">Read More</button>
+                  <Link
+                    href={`/blogs/${blog._id}`}
+                    className="btn btn-sm btn-outline"
+                  >
+                    Read More
+                  </Link>
                 </div>
               </div>
             </div>
