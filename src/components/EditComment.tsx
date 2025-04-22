@@ -4,6 +4,7 @@ import { useState } from "react";
 import Modal from "./Modal";
 import { useRouter } from "next/navigation";
 import { updateComment } from "@/app/actions";
+import { Pencil } from "lucide-react";
 
 const EditComment = ({
   commentId,
@@ -33,9 +34,9 @@ const EditComment = ({
     <>
       <button
         onClick={() => setOpen(true)}
-        className="btn btn-sm btn-soft btn-success"
+        className="btn btn-xs btn-soft btn-success"
       >
-        Edit
+        <Pencil size={15} />
       </button>
       <Modal open={open}>
         <h3 className="font-bold text-lg">Edit Comment</h3>
