@@ -1,3 +1,4 @@
+import Subscribe from "@/components/Subscribe";
 import { formatDate, timeDiff } from "@/lib/helper";
 import { BlogModel } from "@/lib/mongodb/models/Blog";
 import connectToDatabase from "@/lib/mongodb/mongodb";
@@ -27,7 +28,7 @@ export default async function Home() {
           <div className="max-w-md">
             <h1 className="mb-5 text-5xl font-bold">Welcome</h1>
             <p className="mb-5">Exam purposes only :)</p>
-            <button className="btn btn-primary">Subscribe</button>
+            <Subscribe />
           </div>
         </div>
       </div>
