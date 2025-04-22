@@ -61,8 +61,7 @@ export async function updateBlogPost(
       },
     }
   );
-  revalidatePath("/blogs");
-  return redirect("/blogs");
+  return revalidatePath("/blogs");
 }
 
 export async function updateComment(commentId: string, content: string) {

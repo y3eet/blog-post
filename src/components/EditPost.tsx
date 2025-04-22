@@ -41,7 +41,7 @@ const EditPost = ({ blog }: { blog: Blog }) => {
   async function handleSubmit(formData: FormData) {
     setIsSubmitting(true);
     try {
-      updateBlogPost(blog._id as string, formData, urls);
+      await updateBlogPost(blog._id as string, formData, urls);
       router.push("/blogs");
     } catch (e) {
       alert(e);
@@ -54,7 +54,13 @@ const EditPost = ({ blog }: { blog: Blog }) => {
       <div className="card bg-base-100 shadow-xl">
         <div className="card-body">
           <h2 className="card-title text-2xl font-bold mb-6">Edit Blog Post</h2>
-          <form action={handleSubmit}>
+          <form
+            onSubmit={async (e) => {
+              e.preventDefault();
+              const formData = new FormData(e.currentTarget);
+              await handleSubmit(formData);
+            }}
+          >
             <div className="form-control mb-4">
               <label className="label">
                 <span className="label-text">Title</span>
@@ -148,7 +154,7 @@ const EditPost = ({ blog }: { blog: Blog }) => {
             <div className="card-actions justify-end">
               <button
                 type="submit"
-                className={`btn btn-primary ${isSubmitting ? "loading" : ""}`}
+                className={`btn btn-primary`}
                 disabled={isSubmitting || isUploading}
               >
                 {isSubmitting ? "Publishing..." : "Update Post"}

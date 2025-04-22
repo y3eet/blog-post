@@ -52,9 +52,15 @@ const CreatePost = () => {
       <div className="card bg-base-100 shadow-xl">
         <div className="card-body">
           <h2 className="card-title text-2xl font-bold mb-6">
-            Create New Blog Post{" "}
+            Create New Blog Post
           </h2>
-          <form action={handleSubmit}>
+          <form
+            onSubmit={async (e) => {
+              e.preventDefault();
+              const formData = new FormData(e.currentTarget);
+              await handleSubmit(formData);
+            }}
+          >
             <div className="form-control mb-4">
               <label className="label">
                 <span className="label-text">Title</span>
@@ -148,7 +154,7 @@ const CreatePost = () => {
             <div className="card-actions justify-end">
               <button
                 type="submit"
-                className={`btn btn-primary ${isSubmitting ? "loading" : ""}`}
+                className={`btn btn-primary`}
                 disabled={isSubmitting || isUploading}
               >
                 {isSubmitting ? "Publishing..." : "Publish Post"}
