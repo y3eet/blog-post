@@ -2,7 +2,7 @@ import { formatDate, timeDiff } from "@/lib/helper";
 import { BlogModel } from "@/lib/mongodb/models/Blog";
 import CommentModel from "@/lib/mongodb/models/Comment";
 import connectToDatabase from "@/lib/mongodb/mongodb";
-import { Blog, Comment } from "@/lib/types";
+import { Blog } from "@/lib/types";
 import { currentUser } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -124,8 +124,9 @@ export default page;
 
 const CommentForm = async ({ postId }: { postId: string }) => {
   await connectToDatabase();
-  const comments: Comment[] = await CommentModel.find({ postId: postId });
-
+  const comments = await CommentModel.find({ postId: postId }).sort({
+    createdAt: "desc",
+  });
   const handleCommentSubmit = async (formData: FormData) => {
     "use server";
     await connectToDatabase();
