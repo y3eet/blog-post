@@ -1,4 +1,5 @@
 import BlogPost from "@/components/BlogPost";
+import DateFilter from "@/components/DateFilter";
 import { BlogModel } from "@/lib/mongodb/models/Blog";
 import connectToDatabase from "@/lib/mongodb/mongodb";
 import { Blog } from "@/lib/types";
@@ -8,14 +9,40 @@ import { Plus } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
-const page = async () => {
+export const revalidate = 0;
+
+const page = async ({
+  searchParams,
+}: {
+  searchParams: { startDate?: string; endDate?: string };
+}) => {
+  const startDate = searchParams.startDate;
+  const endDate = searchParams.endDate;
+
   await connectToDatabase();
   const user = await currentUser();
-  const blogs: Blog[] = await BlogModel.find()
-    .sort({ createdAt: "desc" })
-    .lean();
+  let blogs: Blog[] = await BlogModel.find().sort({ createdAt: "desc" }).lean();
+  if (startDate && endDate) {
+    blogs = await BlogModel.find({
+      createdAt: {
+        $gte: new Date(startDate),
+        $lte: new Date(endDate),
+      },
+    })
+      .sort({ createdAt: "desc" })
+      .lean();
+  }
   return (
     <div>
+      <div className="flex justify-between mb-5 items-center">
+        <DateFilter />
+        {startDate && (
+          <p className="text-xl">
+            Filter: {startDate} - {endDate}
+          </p>
+        )}
+        <div></div>
+      </div>
       <div className="flex flex-col justify-center items-center mx-auto max-w-5xl">
         {blogs.map((blog, i) => (
           <BlogPost key={i} blog={blog} currentUserId={user?.id} />

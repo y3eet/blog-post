@@ -21,3 +21,17 @@ export const timeDiff = (date: string | number | Date) => {
   if (minutes > 0) return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
   return `${seconds} second${seconds !== 1 ? "s" : ""} ago`;
 };
+
+export function appendDateRangeToUrl(
+  url: string,
+  start: string | Date,
+  end: string | Date
+): string {
+  const formattedStart = formatDate(start);
+  const formattedEnd = formatDate(end);
+  const hasQuery = url.includes("?");
+  const separator = hasQuery ? "&" : "?";
+  return `${url}${separator}startDate=${encodeURIComponent(
+    formattedStart
+  )}&endDate=${encodeURIComponent(formattedEnd)}`;
+}
