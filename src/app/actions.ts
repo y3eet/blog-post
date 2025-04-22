@@ -4,7 +4,6 @@ import { BlogModel } from "@/lib/mongodb/models/Blog";
 import connectToDatabase from "@/lib/mongodb/mongodb";
 import { revalidatePath } from "next/cache";
 import CommentModel from "@/lib/mongodb/models/Comment";
-import { redirect } from "next/navigation";
 
 export async function createBlogPost(formData: FormData, images: string[]) {
   const user = await currentUser();
