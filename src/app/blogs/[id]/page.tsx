@@ -9,6 +9,7 @@ import { redirect } from "next/navigation";
 import Image from "next/image";
 import EditComment from "@/components/EditComment";
 import { SignInButton, SignUpButton } from "@clerk/nextjs";
+import DeleteComment from "@/components/DeleteComment";
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
@@ -213,9 +214,7 @@ const CommentForm = async ({
                         commentId={String(comment._id)}
                         commentContent={comment.content}
                       />
-                      <button className="btn btn-sm btn-soft btn-error ml-2">
-                        Delete
-                      </button>
+                      <DeleteComment commentId={String(comment._id)} />
                     </div>
                   )}
                 </div>

@@ -68,7 +68,7 @@ export async function updateComment(commentId: string, content: string) {
   if (!user) {
     throw new Error("Unauthenticated");
   }
-  console.log(content);
+
   await connectToDatabase();
   await CommentModel.updateOne(
     { _id: commentId, userId: user.id },
@@ -78,4 +78,13 @@ export async function updateComment(commentId: string, content: string) {
       },
     }
   );
+}
+
+export async function deleteComment(commentId: string) {
+  const user = await currentUser();
+  if (!user) {
+    throw new Error("Unauthenticated");
+  }
+  await connectToDatabase();
+  await CommentModel.deleteOne({ _id: commentId, userId: user.id });
 }
