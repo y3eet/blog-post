@@ -11,22 +11,26 @@ import React from "react";
 
 export const revalidate = 0;
 
-const page = async ({
-  searchParams,
-}: {
-  searchParams: { startDate?: string; endDate?: string };
-}) => {
-  const startDate = searchParams.startDate;
-  const endDate = searchParams.endDate;
+interface PageProps {
+  searchParams?: Promise<{ startDate?: string; endDate?: string }>;
+}
+
+const Page = async ({ searchParams }: PageProps) => {
+  const startDate = (await searchParams)?.startDate;
+  const endDate = (await searchParams)?.endDate;
 
   await connectToDatabase();
   const user = await currentUser();
   let blogs: Blog[] = await BlogModel.find().sort({ createdAt: "desc" }).lean();
   if (startDate && endDate) {
+    const start = new Date(startDate);
+    start.setHours(0, 0, 0, 0);
+    const end = new Date(endDate);
+    end.setHours(23, 59, 59, 999);
     blogs = await BlogModel.find({
       createdAt: {
-        $gte: new Date(startDate),
-        $lte: new Date(endDate),
+        $gte: start,
+        $lte: end,
       },
     })
       .sort({ createdAt: "desc" })
@@ -71,5 +75,4 @@ const page = async ({
     </div>
   );
 };
-
-export default page;
+export default Page;
