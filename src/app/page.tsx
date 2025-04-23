@@ -50,7 +50,10 @@ export default async function Home() {
                 )}
               </figure>
               <div className="card-body">
-                <h2 className="card-title">{blog.title}</h2>
+                <h2 className="card-title">
+                  {blog.title.slice(0, 30)}
+                  {blog.title.length > 30 && "..."}
+                </h2>
                 <div className="flex items-center mt-4">
                   <div className="avatar">
                     <div className="avatar avatar-placeholder">
