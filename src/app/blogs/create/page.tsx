@@ -29,10 +29,10 @@ const CreatePost = () => {
     const files = e.target.files;
     if (files && files.length > 0) {
       const filesArr = Array.from(files).map((file) => file);
-      if (filesArr.length <= 5) {
+      if (filesArr.length <= 1) {
         startUpload(filesArr);
       } else {
-        alert("Choose only a maximum 5 of images");
+        alert("Choose only a maximum 1 of image");
       }
     }
   };
@@ -107,15 +107,11 @@ const CreatePost = () => {
                   id="upload"
                   type="file"
                   accept="image/*"
-                  multiple
                   onChange={handleImageSubmit}
                   className="hidden"
                   name="images"
                 />
               </button>
-              <small className="text-xs text-gray-500">
-                You can select up to 5 images.
-              </small>
             </div>
 
             {urls && (

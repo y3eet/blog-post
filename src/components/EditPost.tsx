@@ -107,15 +107,11 @@ const EditPost = ({ blog }: { blog: Blog }) => {
                   id="upload"
                   type="file"
                   accept="image/*"
-                  multiple
                   onChange={handleImageSubmit}
                   className="hidden"
                   name="images"
                 />
               </button>
-              <small className="text-xs text-gray-500">
-                You can select up to 5 images.
-              </small>
             </div>
 
             {urls && (
