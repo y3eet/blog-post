@@ -1,3 +1,4 @@
+import BlogPagination from "@/components/BlogPagination";
 import BlogPost from "@/components/BlogPost";
 import DateFilter from "@/components/DateFilter";
 import { BlogModel } from "@/lib/mongodb/models/Blog";
@@ -12,36 +13,47 @@ import React from "react";
 export const revalidate = 0;
 
 interface PageProps {
-  searchParams?: Promise<{ startDate?: string; endDate?: string }>;
+  searchParams?: Promise<{
+    startDate?: string;
+    endDate?: string;
+    page?: string;
+  }>;
 }
 
 const Page = async ({ searchParams }: PageProps) => {
   const startDate = (await searchParams)?.startDate;
   const endDate = (await searchParams)?.endDate;
+  const page = Number((await searchParams)?.page ?? "1");
 
   await connectToDatabase();
   const user = await currentUser();
-  let blogs: Blog[] = await BlogModel.find().sort({ createdAt: "desc" }).lean();
+  const totalBlogs = await BlogModel.countDocuments();
+  const blogsPerPage = 20;
+  const pages: number[] = Array.from(
+    { length: Math.ceil(totalBlogs / blogsPerPage) },
+    (_, i) => i + 1
+  );
+
+  const filter: Record<string, unknown> = {};
   if (startDate && endDate) {
     const start = new Date(startDate);
     start.setHours(0, 0, 0, 0);
     const end = new Date(endDate);
     end.setHours(23, 59, 59, 999);
-    blogs = await BlogModel.find({
-      createdAt: {
-        $gte: start,
-        $lte: end,
-      },
-    })
-      .sort({ createdAt: "desc" })
-      .lean();
+    filter.createdAt = { $gte: start, $lte: end };
   }
+
+  const blogs: Blog[] = await BlogModel.find(filter)
+    .sort({ createdAt: "desc" })
+    .lean()
+    .limit(blogsPerPage)
+    .skip((page - 1) * blogsPerPage);
   return (
     <div>
       <div className="flex justify-between mb-5 items-center">
         <DateFilter />
         {startDate && (
-          <p className="text-xl">
+          <p className="text-lg">
             Filter: {startDate} - {endDate}
           </p>
         )}
@@ -72,6 +84,9 @@ const Page = async ({ searchParams }: PageProps) => {
           </SignInButton>
         </div>
       )}
+      <div className="flex w-full justify-center my-10">
+        <BlogPagination pages={pages} currentPage={page} />
+      </div>
     </div>
   );
 };
