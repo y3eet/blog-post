@@ -73,6 +73,7 @@ const EditPost = ({ blog }: { blog: Blog }) => {
                 placeholder="Enter your blog title"
                 required
                 name="title"
+                maxLength={100}
               />
             </div>
 
@@ -87,6 +88,7 @@ const EditPost = ({ blog }: { blog: Blog }) => {
                 placeholder="Write your blog content here..."
                 required
                 name="content"
+                maxLength={5000}
               />
             </div>
 
