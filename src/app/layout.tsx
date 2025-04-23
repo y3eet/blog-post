@@ -26,14 +26,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <ClerkProvider>
+      <ClerkProvider>
+        <body
+          // data-theme="cupcake"
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
           <Topbar />
           <div className="pt-20 md:mx-10">{children}</div>
-        </ClerkProvider>
-      </body>
+        </body>
+      </ClerkProvider>
     </html>
   );
 }

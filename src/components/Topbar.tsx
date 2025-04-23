@@ -6,6 +6,7 @@ import {
   SignUpButton,
 } from "@clerk/nextjs";
 import Link from "next/link";
+import SelectTheme from "./SelectTheme";
 
 const Topbar = () => {
   return (
@@ -46,6 +47,7 @@ const Topbar = () => {
         </ul>
       </div>
       <div className="navbar-end flex gap-2">
+        <SelectTheme />
         <SignedOut>
           <div className="btn btn-primary">
             <SignInButton>Login</SignInButton>
