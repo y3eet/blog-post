@@ -27,13 +27,20 @@ const CreatePost = () => {
 
   const handleImageSubmit = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
+
     if (files && files.length > 0) {
-      const filesArr = Array.from(files).map((file) => file);
-      if (filesArr.length <= 1) {
-        startUpload(filesArr);
-      } else {
-        alert("Choose only a maximum 1 of image");
+      const filesArr = Array.from(files);
+      if (filesArr.length > 1) {
+        alert("Choose only a maximum of 1 image");
+        return;
       }
+      const file = filesArr[0];
+      const maxSizeMB = 8;
+      if (file.size > maxSizeMB * 1024 * 1024) {
+        alert(`Image must be less than ${maxSizeMB}MB`);
+        return;
+      }
+      startUpload([file]);
     }
   };
   async function handleSubmit(formData: FormData) {
