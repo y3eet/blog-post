@@ -165,6 +165,7 @@ const CommentForm = async ({
               className="textarea textarea-bordered h-24 w-full"
               placeholder="Join the discussion..."
               name="newComment"
+              maxLength={500}
             ></textarea>
           </div>
           <div className="mt-4">
